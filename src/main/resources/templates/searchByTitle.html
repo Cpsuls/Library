@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search by Field</title>
+    <style>
+        html {
+            background-image: url(images/devops_books.jpg);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        /* Add styles for the search bar */
+        .search-bar {
+            width: 50%;
+            margin: 20px auto;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-button {
+            background-color: #4CAF50;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+<h1>Search by Field</h1>
+<form action="/searchByTitle" method="post">
+    <div class="search-bar-container">
+        <input type="text" name="info" id="search-input" class="search-bar" placeholder="Search by title, ISBN, placed at, FIO, or returned at" required>
+        <button class="search-button" type="submit">Search</button>
+    </div>
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Search by Field</title>-->
+<!--    <style>html {-->
+<!--        background-image: url(images/devops_books.jpg);-->
+<!--        background-repeat: no-repeat;-->
+<!--        background-position: center center;-->
+<!--        background-attachment: fixed;-->
+<!--        -webkit-background-size: cover;-->
+<!--        -moz-background-size: cover;-->
+<!--        -o-background-size: cover;-->
+<!--        background-size: cover;-->
+<!--    }</style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Search by Field</h1>-->
+<!--<form action="/searchByTitle" method="post">-->
+<!--    <label for="field">Field:</label>-->
+<!--    <select id="field" name="field">-->
+<!--        <option value="title">Title</option>-->
+<!--        <option value="isbn">ISBN</option>-->
+<!--        <option value="placedAt">Placed At</option>-->
+<!--        <option value="FIO">FIO</option>-->
+<!--        <option value="returnedAt">Returned At</option>-->
+<!--    </select>-->
+<!--    <label for="value">Value:</label>-->
+<!--    <input type="text" id="value" name="value" required>-->
+<!--    <button type="submit">Search</button>-->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->

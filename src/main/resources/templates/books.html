@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Книги</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    html {
+      background-image: url(images/devops_books.jpg);
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+    .btn {
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-primary {
+      background-color: #337ab7;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background-color: #23527c;
+    }
+
+    .btn-danger {
+      background-color: #d9534f;
+      color: #fff;
+    }
+
+    .btn-danger:hover {
+      background-color: #c9302c;
+    }
+
+    .btn-info {
+      background-color: #5bc0de;
+      color: #fff;
+    }
+
+    .btn-info:hover {
+      background-color: #31b0d5;
+    }
+
+    /* Add green text color */
+    .title, .isbn, .placed-at, .fio, .returned-at {
+      color: #33CC33; /* green text color */
+    }
+  </style>
+</head>
+<body>
+<h1>Book List</h1>
+<p>Book count: <span th:text="${count}" class="title">0</span></p>
+<ul th:if="${books}">
+  <li th:each="book : ${books}">
+    <span th:text="${book.title}" class="title">Book Name</span>
+    <span th:text="${book.isbn}" class="isbn">ISBN</span>
+    <span th:text="${book.placedAt}" class="placed-at">Placed At</span>
+    <span th:text="${book.FIO}" class="fio">FIO</span>
+    <span th:text="${book.returnedAt}" class="returned-at">Returned At</span>
+  </li>
+</ul>
+<p th:if="${books.isEmpty()}">Нет книг.</p>
+<a th:href="@{/addBook}">
+  <button class="btn btn-primary">Добавить книгу</button>
+</a>
+<a th:href="@{/DeleteBook}">
+  <button class="btn btn-danger">Удалить книгу</button>
+</a>
+<a th:href="@{/searchByTitle}">
+  <button class="btn btn-info">Найти книгу по параметрам</button>
+</a>
+
+<!--<div th:attr="data-books=${books}"></div>-->
+<!--<canvas id="book-chart" width="400" height="200"></canvas>-->
+
+<!--<script>-->
+<!--  const books = JSON.parse(document.querySelector('[th\\:attr]').getAttribute('data-books'));-->
+
+
+<!--  const ctx = document.getElementById('book-chart').getContext('2d');-->
+
+<!--  new Chart(ctx, {-->
+<!--    type: 'bar',-->
+<!--    data: {-->
+<!--      labels: books.map(book => book.title),-->
+<!--      datasets: [{-->
+<!--        label: 'Days on shelf',-->
+<!--        data: books.map(book => {-->
+<!--          const placedAt = new Date(book.placedAt);-->
+<!--          const returnedAt = new Date(book.returnedAt);-->
+<!--          const daysOnShelf = (returnedAt - placedAt) / (1000 * 60 * 60 * 24);-->
+<!--          return daysOnShelf;-->
+<!--        }),-->
+<!--        backgroundColor: [-->
+<!--          'rgba(255, 99, 132, 0.2)',-->
+<!--          'rgba(54, 162, 235, 0.2)',-->
+<!--          'rgba(255, 206, 86, 0.2)',-->
+<!--          'rgba(75, 192, 192, 0.2)',-->
+<!--          'rgba(153, 102, 255, 0.2)',-->
+<!--          'rgba(255, 159, 64, 0.2)'-->
+<!--        ],-->
+<!--        borderColor: [-->
+<!--          'rgba(255, 99, 132, 1)',-->
+<!--          'rgba(54, 162, 235, 1)',-->
+<!--          'rgba(255, 206, 86, 1)',-->
+<!--          'rgba(75, 192, 192, 1)',-->
+<!--          'rgba(153, 102, 255, 1)',-->
+<!--          'rgba(255, 159, 64, 1)'-->
+<!--        ],-->
+<!--        borderWidth: 1-->
+<!--      }]-->
+<!--    },-->
+<!--    options: {-->
+<!--      scales: {-->
+<!--        y: {-->
+<!--          beginAtZero: true-->
+<!--        }-->
+<!--      }-->
+<!--    }-->
+<!--  });-->
+<!--</script>-->
+</body>
+</html>
