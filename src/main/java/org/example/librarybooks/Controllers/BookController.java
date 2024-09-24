@@ -7,7 +7,10 @@ import org.example.librarybooks.Data.BookRepository;
 import org.example.librarybooks.Models.Book;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,13 +19,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -32,7 +40,7 @@ public class BookController {
     @Autowired
     private int bookCount;
     private static Long BookIdToChange;
-    private Model modelForChange;
+
 
     public BookController(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
@@ -101,8 +109,6 @@ public class BookController {
     public String searchByField(@RequestParam("info") String info,
                                 Model model) throws ParseException {
         try {
-
-
             List<Book> books = List.of();
             if (!bookRepository.findByTitle(info.trim()).isEmpty()) {
                 books = bookRepository.findByTitle(info.trim());
@@ -162,10 +168,12 @@ public class BookController {
     public String getBooksChart(Model model, HttpServletRequest request) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         List<Book> books = bookRepository.findAll();
-        for (Book book : books) {
-            dataset.addValue(1, "Books", book.getPlacedAt().toString());
+        Map<String, Long> bookCounts = books.stream()
+                .collect(Collectors.groupingBy(book -> book.getPlacedAt().toString(), Collectors.counting()));
+        for (Map.Entry<String, Long> entry : bookCounts.entrySet()) {
+            dataset.addValue(entry.getValue(), "Books", entry.getKey());
         }
-        JFreeChart chart = ChartFactory.createLineChart(
+        JFreeChart chart = ChartFactory.createBarChart(
                 "Books by Days",
                 "Days",
                 "Number of Books",
@@ -175,26 +183,28 @@ public class BookController {
                 true,
                 false
         );
+
+
+        CategoryAxis axis = chart.getCategoryPlot().getDomainAxis();
+        axis.setTickLabelFont(new Font("SansSerif", Font.PLAIN, 12));
+        axis.setTickLabelInsets(new RectangleInsets(40, 40, 40, 40));
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
             ChartUtilities.writeChartAsPNG(bos, chart, 800, 600);
         } catch (IOException e) {
             log.error("Error generating chart", e);
         }
-
         byte[] chartData = bos.toByteArray();
         String filename = "chart.png";
-        String filePath = "C:\\Users\\kosta\\Documents\\Графики\\" + filename;
+        String filePath = "C:\\Users\\kosta\\OneDrive\\Документы\\Графики\\" + filename;
         try (FileOutputStream fos = new FileOutputStream(filePath)) {
             fos.write(chartData);
         } catch (IOException e) {
             log.error("Error saving chart to file", e);
         }
-        model.addAttribute("chartData", chartData);
+        model.addAttribute("chartData", Base64.getEncoder().encodeToString(chartData));
         return "chart";
     }
-
-
 
 
 

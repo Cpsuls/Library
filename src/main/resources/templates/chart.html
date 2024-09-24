@@ -5,6 +5,6 @@
 </head>
 <body>
 <h1>Books by Days Chart</h1>
-<img th:src="${chartData}" alt="Books by Days Chart">
-</body>
+<img th:src="'data:image/png;base64,' + ${chartData}" alt="Books by Days Chart"/>
+<body/>
 </html>
