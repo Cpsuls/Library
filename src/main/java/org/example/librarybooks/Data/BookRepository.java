@@ -5,6 +5,7 @@ import jakarta.persistence.TemporalType;
 import jakarta.persistence.criteria.Path;
 import org.example.librarybooks.Models.Book;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -19,9 +20,9 @@ import java.util.Optional;
 public interface BookRepository extends PagingAndSortingRepository<Book,Long> {
     List<Book> findAll();
 
-    @Modifying
-    @Query("DELETE FROM Book b WHERE b.id = :id")
-    void delete(@Param("id") Long id);
+//    @Modifying
+//    @Query("DELETE FROM Book b WHERE b.id = :id")
+//    void delete(@Param("id") Long id);
 
     void save(Book book);
 

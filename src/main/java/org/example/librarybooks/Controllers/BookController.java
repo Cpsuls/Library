@@ -1,5 +1,4 @@
 package org.example.librarybooks.Controllers;
-import jakarta.servlet.http.HttpServletRequest;
 import org.jfree.chart.ChartUtilities;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +8,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -19,7 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import javax.validation.Valid;
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -67,26 +67,27 @@ public class BookController {
 
 
     @GetMapping("/addBook")
-    public String addBook(Model model) {
+    public String addBook() {
         return "addBook";
     }
 
     @PostMapping("/books")
     public String addBook(
-            @RequestParam("title") String title,
-            @RequestParam("isbn") String isbn,
-            @RequestParam("placedAt") @DateTimeFormat(pattern = "yyyy-MM-dd") Date placedAt,
-            @RequestParam("fio") String fio,
-            @RequestParam("returnedAt") @DateTimeFormat(pattern = "yyyy-MM-dd") Date returnedAt) {
+           @Valid @RequestParam("title") String title,
+           @Valid @RequestParam("isbn") String isbn,
+           @Valid  @RequestParam("placedAt") @DateTimeFormat(pattern = "yyyy-MM-dd") Date placedAt,
+           @Valid  @RequestParam("fio") String fio,
+           @Valid  @RequestParam("returnedAt") @DateTimeFormat(pattern = "yyyy-MM-dd") Date returnedAt) {
         Book book = new Book(title.trim(), isbn.trim(), placedAt, fio.trim(), returnedAt);
         bookRepository.save(book);
         bookCount++;
         return "redirect:/books";
+
     }
 
     @PostMapping("/DeleteBook")
     @Transactional
-    public String DeleteBook(@RequestParam String title, Model model) {
+    public String DeleteBook(@RequestParam String title ) {
         bookRepository.deleteByTitle(title);
         bookCount--;
         return "redirect:/books";
@@ -136,23 +137,19 @@ public class BookController {
         }
     }
 
-
-
-
     @GetMapping("/editBook")
     public String editBook(Model model) {
         Book book = bookRepository.findById(BookIdToChange).orElseThrow();
-        System.out.println(BookIdToChange);
         model.addAttribute("book", book);
         return "editBook";
     }
     @PostMapping("/editBook")
     public String updateBook(
-            @RequestParam String title,
-            @RequestParam String isbn,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date placedAt,
-            @RequestParam String FIO,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date returnedAt
+              @RequestParam String title,
+               @RequestParam String isbn,
+              @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date placedAt,
+               @RequestParam String FIO,
+              @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date returnedAt
     ) {
         Book book = bookRepository.findById(BookIdToChange).orElseThrow();
         book.setTitle(title);
@@ -165,7 +162,7 @@ public class BookController {
     }
 
     @GetMapping("/chart")
-    public String getBooksChart(Model model, HttpServletRequest request) {
+    public String getBooksChart(Model model ) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         List<Book> books = bookRepository.findAll();
         Map<String, Long> bookCounts = books.stream()
@@ -174,20 +171,21 @@ public class BookController {
             dataset.addValue(entry.getValue(), "Books", entry.getKey());
         }
         JFreeChart chart = ChartFactory.createBarChart(
-                "Books by Days",
-                "Days",
-                "Number of Books",
+                "Книги по дням",
+                "Дни",
+                "Количество книг",
                 dataset,
                 PlotOrientation.VERTICAL,
                 false,
                 true,
                 false
         );
-
-
         CategoryAxis axis = chart.getCategoryPlot().getDomainAxis();
         axis.setTickLabelFont(new Font("SansSerif", Font.PLAIN, 12));
         axis.setTickLabelInsets(new RectangleInsets(40, 40, 40, 40));
+        NumberAxis rangeAxis = new NumberAxis("Количество книг");
+        rangeAxis.setTickUnit(new NumberTickUnit(1));
+        chart.getCategoryPlot().setRangeAxis(rangeAxis);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
             ChartUtilities.writeChartAsPNG(bos, chart, 800, 600);
@@ -487,6 +485,13 @@ public class BookController {
 //    public String editBook(@PathVariable Long id){
 //        Optional<Book> book = bookRepository.findById(id);
 //        return "editBook";
+//
+//    }
+//    @ResponseBody
+//    @GetMapping("/boooks")
+//    public Book c(){
+//        Book book=bookRepository.findByTitle("xy122").get(0);
+//        return book;
 //
 //    }
 

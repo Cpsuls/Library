@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Edit Book</title>
+    <title>Редактировать книгу</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         html {
-            background-image: url(images/devops_books.jpg);
+            background-color: papayawhip;
             background-repeat: no-repeat;
             background-position: center center;
             background-attachment: fixed;
@@ -13,29 +16,80 @@
             -o-background-size: cover;
             background-size: cover;
         }
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 36px;
+            color: #8B0000;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="datetime-local"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3e8e41;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #4CAF50;
+        }
     </style>
 </head>
 <body>
-<h1>Edit Book</h1>
+<h1>Редактировать книгу</h1>
 <form action="/editBook" method="post">
     <input type="hidden" th:value="${book.id}" name="id">
-    <label for="title">Title:</label>
+    <label for="title">Название:</label>
     <input type="text" id="title" name="title" th:value="${book.title}">
-    <br>
+
     <label for="isbn">ISBN:</label>
     <input type="text" id="isbn" name="isbn" th:value="${book.isbn}">
-    <br>
-    <label for="placedAt">Placed At:</label>
+
+    <label for="placedAt">Дата размещения:</label>
     <input type="datetime-local" id="placedAt" name="placedAt" th:value="${book.placedAt}">
-    <br>
-    <label for="FIO">FIO:</label>
+
+    <label for="FIO">Автор:</label>
     <input type="text" id="FIO" name="FIO" th:value="${book.FIO}">
-    <br>
-    <label for="returnedAt">Returned At:</label>
+
+    <label for="returnedAt">Дата возврата:</label>
     <input type="datetime-local" id="returnedAt" name="returnedAt" th:value="${book.returnedAt}">
-    <br>
-    <button type="submit">Update</button>
+
+    <button type="submit">Обновить</button>
 </form>
-<a th:href="@{/bookList}">Back to book list</a>
+<a th:href="@{/books}" class="back-link">Назад к списку книг</a>
 </body>
 </html>

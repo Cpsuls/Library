@@ -2,9 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Book List</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         html {
-            background-image: url(images/devops_books.jpg);
+            background-color: #d1b684;
             background-repeat: no-repeat;
             background-position: center center;
             background-attachment: fixed;
@@ -13,12 +16,46 @@
             -o-background-size: cover;
             background-size: cover;
         }
-        /* Add a background image */
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        span {
+            display: inline-block;
+            width: 150px;
+            margin-right: 20px;
+            text-align: left;
+        }
+        .spacing {
+            margin-right: 20px;
+        }
         .button-group {
             margin-top: 20px;
             text-align: center;
         }
-
         .button {
             background-color: #4CAF50;
             color: #ffffff;
@@ -26,55 +63,20 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            text-decoration: none; /* added to remove underline */
+            text-decoration: none;
+            transition: background-color 0.3s;
         }
-
         .button:hover {
             background-color: #3e8e41;
         }
-
         .button:active {
             background-color: #3e8e41;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
-
-        h1 {
-            font-size: 36px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        li:last-child {
-            border-bottom: none;
-        }
-
-        span {
-            display: inline-block;
-            width: 150px;
-            margin-right: 20px; /* added margin-right to make spacing consistent */
-            text-align: left; /* added text-align to left-align the text */
-        }
-
-        /* added a new class to make spacing consistent */
-        .spacing {
-            margin-right: 20px;
-        }
     </style>
 </head>
 <body>
-<h1>Book List</h1>
+<h1>Список книг</h1>
 <ul th:if="${books}">
     <li th:each="book : ${books}">
         <span th:text="${book.title}" class="spacing">Book Name</span>
@@ -86,9 +88,9 @@
 </ul>
 <p th:if="${books.isEmpty()}">No books found.</p>
 <div class="button-group">
-    <a th:href="@{/addBook}" class="button" style="text-decoration: none;">Add a new book</a>
-    <a th:href="@{/editBook}" class="button" style="text-decoration: none;">Edit</a>
-    <a th:href="@{/books}" class="button" style="text-decoration: none;">Return to full list</a>
+    <a th:href="@{/addBook}" class="button">Добавить книгу</a>
+    <a th:href="@{/editBook}" class="button">Редактировать запись книги</a>
+    <a th:href="@{/books}" class="button">Вернуться к списку книг</a>
 </div>
 </body>
 </html>

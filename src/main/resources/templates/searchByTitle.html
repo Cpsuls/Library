@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Search by Field</title>
+    <title>Поиск по полю</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         html {
-            background-image: url(images/devops_books.jpg);
+            background-color: papayawhip;
             background-repeat: no-repeat;
             background-position: center center;
             background-attachment: fixed;
@@ -13,22 +15,33 @@
             -o-background-size: cover;
             background-size: cover;
         }
-
-        /* Add styles for the search bar */
-        .search-bar {
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 36px;
+            color: #8B0000;
+            margin-bottom: 20px;
+        }
+        .search-bar-container {
             width: 50%;
             margin: 20px auto;
+        }
+        .search-bar {
+            width: 100%;
             padding: 10px;
-            border: none;
+            border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
         }
-
         .search-bar:focus {
             outline: none;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
-
         .search-button {
             background-color: #4CAF50;
             color: #ffffff;
@@ -36,19 +49,21 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
         }
-
         .search-button:hover {
             background-color: #3e8e41;
         }
     </style>
 </head>
 <body>
-<h1>Search by Field</h1>
+<h1>Поиск по полю</h1>
 <form action="/searchByTitle" method="post">
     <div class="search-bar-container">
-        <input type="text" name="info" id="search-input" class="search-bar" placeholder="Search by title, ISBN, placed at, FIO, or returned at" required>
-        <button class="search-button" type="submit">Search</button>
+        <input type="text" name="info" id="search-input" class="search-bar"
+               placeholder="Поиск по названию, ISBN, дате размещения, ФИО или дате возврата" required>
+        <button class="search-button" type="submit">Поиск</button>
     </div>
 </form>
 </body>
